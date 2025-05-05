@@ -64,3 +64,16 @@ export const deleteUsers = async (req,res) => {
         })
     }
 }
+
+export const usuarioId = async (req,res) => {
+    const  {id} = req.params
+
+    try {
+        const userId = await prisma.user.findUnique({
+            where: {id: Number(id)}
+        })
+        res.status(200).json(userId)
+    } catch (error) {
+        res.status(400).json({mensagem: `erro ao ver usuario por id: ${error.mensage}`})
+    }
+}
