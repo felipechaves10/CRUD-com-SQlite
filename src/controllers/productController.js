@@ -22,7 +22,7 @@ export const criarProduto = async (req,res) => {
 
 export const listaProdutos = async (req,res) => {
     try {
-        const lista = await prisma.user
+        const lista = await prisma.user 
 
     } catch (error) {
         
