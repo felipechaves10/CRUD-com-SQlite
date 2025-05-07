@@ -1,5 +1,5 @@
 import express from "express"
-import { getAllUsers, postCreateUsers, deleteUsers, updateUser, usuarioId } from "../controllers/userController.js"
+import { getAllUsers, postCreateUsers, deleteUsers, updateUser, usuarioId, registerUser } from "../controllers/userController.js"
 import { validete } from "../middleware/validate.js"
 import { createUserSchema, updateUserSchema } from "../schemas/userSchemas.js"
 
@@ -15,4 +15,9 @@ router.delete('/:id', deleteUsers)
 
 router.get("/:id", usuarioId)
 
+router.post("/registro", registerUser)
+
+
+
 export default router 
+

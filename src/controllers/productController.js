@@ -19,3 +19,12 @@ export const criarProduto = async (req,res) => {
         res.status(500).json({message: `error ao criarProduto: ${error.message}`})
     }
 }
+
+export const listaProdutos = async (req,res) => {
+    try {
+        const lista = await prisma.user
+
+    } catch (error) {
+        
+    }
+}
