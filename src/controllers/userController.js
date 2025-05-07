@@ -77,3 +77,5 @@ export const usuarioId = async (req,res) => {
         res.status(400).json({mensagem: `erro ao ver usuario por id: ${error.mensage}`})
     }
 }
+
+
