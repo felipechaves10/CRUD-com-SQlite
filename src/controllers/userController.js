@@ -18,10 +18,10 @@ export const getAllUsers = async (req, res) =>{
 // }
 
 export const postCreateUsers = async (req,res) => {
-    const {nome, email} = req.body
+    const {nome, email, password} = req.body
    try {
     const newUsers =  await prisma.user.create({
-        data: {nome, email} 
+        data: {nome, email, password} 
     })
 
     res.status(201).json(newUsers)
@@ -34,11 +34,11 @@ export const postCreateUsers = async (req,res) => {
 }
 export const updateUser = async (req,res) => {
  const id = req.params.id
- const  {nome, email} = req.body
+ const  {nome, email, password} = req.body
  try{
     const updateUser =await prisma.user.update({
         where: {id: parseInt(id)},
-        data: {nome, email}
+        data: {nome, email,password}
     })
     res.status(200).json(updateUser)
 
