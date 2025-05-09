@@ -8,6 +8,6 @@ app.use(express.json())
 
 // Rota de usuários
 app.use("/users", userRoutes)
-app.use("/produttos", produtosRoutes)
+app.use("/produtos", produtosRoutes)
 
 export default app
