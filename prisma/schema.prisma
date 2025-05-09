@@ -19,3 +19,15 @@ model User {
   password String
 }
 
+model product {
+  id Int @id @default(autoincrement())
+  nome String
+  description String?
+  price Float 
+  stock Int 
+  createdAt DateTime @default(now())
+
+}
+ 
+  
+
