@@ -13,3 +13,8 @@ export const updateUserSchema = z.object({
     password: z.string().min(6,"senha dev  ter menos 6 chars").regex(/[A-Z]/,  "A senha deve ter pelo menos uma letra maisucula").optional()
     
 })
+
+export const loginSchema = z.object({
+    email: z.string().email("Email invalido!"),
+    password: z.string().min(1, "senha e obrigatoria!")
+})

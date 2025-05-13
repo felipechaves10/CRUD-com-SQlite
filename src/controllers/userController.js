@@ -1,5 +1,7 @@
 import { PrismaClient } from '@prisma/client'
+import { comparePassword, generateToken, hashPassword } from '../utils/auth.js'
 const prisma = new PrismaClient()
+
 
 export const getAllUsers = async (req, res) =>{
     const users  = await prisma.user.findMany()
@@ -78,4 +80,72 @@ export const usuarioId = async (req,res) => {
     }
 }
 
+export const registerUser = async (req, res) => {
+
+    const {nome, email, password} = req.body
+
+    try {
+        // Criar a senha do usuário hasheada
+        const hashedPassword = await hashPassword(password)
+
+        //Cria usuário no banco de dados
+        const newRegisteredUser = await prisma.user.create({
+            data: {
+                nome: nome,
+                email: email,
+                password: hashedPassword
+            }
+        })
+
+        //Gerar um token JWT
+        const token = generateToken(newRegisteredUser)
+
+        //Manda como resposta infos do usuário criado e o token de acesso
+        res.status(201).json({
+            nome: newRegisteredUser.nome,
+            email: newRegisteredUser.email,
+            token: token
+        })
+    
+    } catch (error) {
+        res.status(400).json({
+            erro: "Erro ao criar o usuário!",
+            detalhes: error.message
+        })
+    }
+
+
+
+}
+
+export const login = async (req,res) => {
+    const {email, password} = req.body
+    try {
+        //01 buscar o usuario pelo email
+     const user = await prisma.user.findUnique({
+        where: {email}
+
+     })
+     if(!user){
+        return res.status(401).json({
+            mensagem: "Credenciais Ivalidas!"
+        })
+     }
+        //02. comparar a senha fornecida com a senha hash amazenada
+      const pesswordMatch = await comparePassword(
+        password, user.password)
+
+        if(!pesswordMatch){
+            return res.status(401).json({
+                mensagem: "Credenciais invalidas!"
+            })
+        }
+        //03. gerar token jwt
+        const token = generateToken(user)
+        //04/ Enviar como resposta o usuario e token
+        res.json({usuario:{nome: user.nome,email: user.email},token})
+    } catch (error) {
+      res.status(500).json({mensagem: "Erro no Login", erro: error.message})  
+    }
+}
 
